@@ -1,0 +1,99 @@
+# ==========================
+# EduChain Academy .gitignore
+# Web3 Education Platform | Alchemy-Powered | Compliance-First
+# ==========================
+
+# === DEPENDENCIES ===
+node_modules/
+.pnp
+.pnp.js
+.yarn-integrity
+.yarnrc.yml
+
+# === ENVIRONMENT & SECRETS (CRITICAL: NEVER COMMIT) ===
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.keystore
+keystore/
+wallets/
+.alchemy/
+.privy/
+.sumsub/
+.onfido/
+
+# === BUILD & OUTPUT ===
+dist/
+build/
+out/
+.next/
+*.tsbuildinfo
+.turbo/
+.vercel/
+
+# === FOUNDRY / SOLIDITY ===
+cache/
+out/
+broadcast/
+.forge-snapshots/
+# lib/ # Uncomment if using git submodules for dependencies
+test/.coverage/
+
+# === NEXT.JS & FRONTEND ===
+.next/
+out/
+.swc/
+
+# === IDE & EDITORS ===
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# === OS & TEMPORARY ===
+*.log
+*.tmp
+.npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+coverage/
+.nyc_output/
+
+# === COMPLIANCE & SENSITIVE DATA (REGULATORY SAFETY) ===
+kyc-data/
+user-identifiers/
+compliance-raw/
+audit-exports/
+user-logs/
+temp/
+uploads/
+screenshots/
+*.csv
+*.xlsx
+*.docx
+# !docs/legal/*.pdf # Uncomment only if intentionally versioning public legal docs
+
+# === BLOCKCHAIN LOCAL DEV ===
+anvil/
+hardhat/
+ganache/
+.hardhat/
+foundry-cache/
+
+# === AI / CURSOR / COPILOT / GITHUB ===
+.cursor/
+.copilot/
+.github/copilot/
+.history/
+
+# === MISCELLANEOUS ===
+*.patch
+*.diff
+!.github/
