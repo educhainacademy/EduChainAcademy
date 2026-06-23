@@ -1,0 +1,68 @@
+MIT License
+
+Copyright (c) [Year] [Your Organization/Entity Name]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+CREATIVE COMMONS ATTRIBUTION-SHAREALIKE 4.0 INTERNATIONAL (CC BY-SA 4.0)
+
+All educational content, course materials, quizzes, diagrams, and curriculum
+located in the /curriculum, /courses, and /docs directories are licensed under
+CC BY-SA 4.0. You are free to share and adapt this material for any purpose,
+provided you give appropriate credit, indicate changes, and distribute derivatives
+under the same license. Full license text: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+---
+
+PROJECT-SPECIFIC TERMS & COMPLIANCE DISCLAIMERS
+
+1. SCOPE OF LICENSE
+   • MIT applies strictly to source code, smart contracts, UI components, and infrastructure scripts.
+   • CC BY-SA 4.0 applies strictly to educational content, assessments, and documentation.
+   • Brand assets (logos, trademarks, "EduChain Academy" name) are NOT covered by open-source licenses. All rights reserved.
+
+2. TOKEN UTILITY & NON-SECURITY DISCLAIMER
+   • The EDU token and any related reward mechanisms are designed strictly as utility access points for platform features, course progression, NFT badge minting, and governance participation.
+   • EDU tokens do NOT represent equity, ownership, debt, dividend rights, profit-sharing, or any financial security under any jurisdiction.
+   • Token distribution is behavior-gated (learn-to-earn), KYC-verified, and geo-fenced. No public fundraising or speculative marketing is conducted.
+
+3. NO FINANCIAL OR LEGAL ADVICE
+   • All code, smart contracts, and educational materials are provided for technical and educational purposes only.
+   • Nothing herein constitutes financial, investment, tax, or legal advice. Users assume all risk associated with interacting with blockchain networks, wallets, and third-party protocols.
+
+4. REGULATORY COMPLIANCE & GEO-RESTRICTIONS
+   • Platform access and token rewards are restricted in jurisdictions where utility token distribution violates local securities, anti-money laundering (AML), or consumer protection laws.
+   • Users must comply with all applicable KYC/AML requirements. The project operators reserve the right to suspend access or rewards for non-compliance.
+
+5. SMART CONTRACT & DEFI RISK ACKNOWLEDGMENT
+   • Smart contracts are deployed on public blockchains and are subject to network congestion, consensus changes, oracle failures, and potential exploits.
+   • All contracts are open-source and intended for audit. Users interact at their own risk. Bug bounties and formal audits (when completed) will be published in /audits.
+
+6. CONTRIBUTIONS & INTELLECTUAL PROPERTY
+   • By submitting pull requests, issues, or content, you grant the project a perpetual, worldwide, royalty-free license to use, modify, and distribute your contributions under the same licenses.
+   • Contributors retain authorship rights but waive moral rights to the extent permitted by law.
+
+7. GOVERNING LAW & DISPUTE RESOLUTION
+   • This license and any disputes arising from platform use shall be governed by the laws of [Insert Jurisdiction, e.g., State of Delaware / Swiss Confederation / Singapore].
+   • Parties agree to resolve disputes through good-faith negotiation or binding arbitration in [City, Country] before pursuing litigation.
+
+Last Updated: [Month, Year]
+Contact: legal@[yourdomain].com
