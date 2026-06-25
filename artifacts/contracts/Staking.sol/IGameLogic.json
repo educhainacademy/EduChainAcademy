@@ -1,0 +1,32 @@
+{
+  "_format": "hh3-artifact-1",
+  "contractName": "IGameLogic",
+  "sourceName": "contracts/Staking.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "player",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "grantXP",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/Staking.sol",
+  "buildInfoId": "solc-0_8_24-5113aa9c080b92dda5eddaa8baa46ce7b33379aa"
+}

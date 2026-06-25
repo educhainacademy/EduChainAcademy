@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "./SoulboundMembership.sol"; // just to get IEntryPoint definition if needed
-
 /**
  * @title SimplePaymaster
  * @notice Minimal ERC‑4337 paymaster that unconditionally approves any UserOperation.

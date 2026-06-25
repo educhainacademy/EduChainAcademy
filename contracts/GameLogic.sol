@@ -40,7 +40,7 @@ contract GameLogic is Ownable {
      * @param player Address of the player.
      * @param amount Amount of XP to add.
      */
-    function grantXP(address player, uint256 amount) external onlyOwner {
+    function grantXP(address player, uint256 amount) public onlyOwner {
         require(player != address(0), "Zero address");
         xpBalance[player] += amount;
         emit XPGained(player, amount, xpBalance[player]);
@@ -81,8 +81,11 @@ contract GameLogic is Ownable {
     function upgradeItem(uint256 tokenId, uint256 xpCost) external {
         // Ensure caller owns the NFT
         require(gameItem.ownerOf(tokenId) == msg.sender, "Not item owner");
-        // Spend XP from caller
-        spendXP(msg.sender, xpCost);
+        // Deduct XP directly (upgradeItem is player-callable, so bypass onlyOwner spendXP)
+        uint256 current = xpBalance[msg.sender];
+        require(current >= xpCost, "Insufficient XP");
+        xpBalance[msg.sender] = current - xpCost;
+        emit XPSpent(msg.sender, xpCost, xpBalance[msg.sender]);
         // Increment level (capped at 255 which is practically unreachable)
         uint8 newLevel = ++itemLevel[tokenId];
         emit ItemUpgraded(msg.sender, tokenId, newLevel);
