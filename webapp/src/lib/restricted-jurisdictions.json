@@ -1,0 +1,116 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-06-24",
+  "description": "Restricted jurisdictions for EduChain Academy platform access. Updated quarterly per COMPLIANCE.md.",
+  "categories": {
+    "fullyBlocked": {
+      "description": "Platform access and token distribution completely blocked",
+      "jurisdictions": [
+        {
+          "code": "US",
+          "name": "United States",
+          "reason": "Operating without registered exemption; SEC securities regulations",
+          "enforcedBy": ["ip", "wallet_chain", "kyc"]
+        },
+        {
+          "code": "CN",
+          "name": "Mainland China",
+          "reason": "Cryptocurrency restrictions per PBOC regulations",
+          "enforcedBy": ["ip", "wallet_chain"]
+        },
+        {
+          "code": "RU",
+          "name": "Russia",
+          "reason": "Sanctions compliance",
+          "enforcedBy": ["ip", "kyc"]
+        },
+        {
+          "code": "BY",
+          "name": "Belarus",
+          "reason": "Sanctions compliance",
+          "enforcedBy": ["ip", "kyc"]
+        },
+        {
+          "code": "KP",
+          "name": "North Korea",
+          "reason": "Sanctions compliance (UN/OFAC)",
+          "enforcedBy": ["ip", "kyc"]
+        },
+        {
+          "code": "SY",
+          "name": "Syria",
+          "reason": "Sanctions compliance (UN/OFAC)",
+          "enforcedBy": ["ip", "kyc"]
+        },
+        {
+          "code": "IR",
+          "name": "Iran",
+          "reason": "Sanctions compliance (UN/OFAC)",
+          "enforcedBy": ["ip", "kyc"]
+        },
+        {
+          "code": "CU",
+          "name": "Cuba",
+          "reason": "Sanctions compliance (OFAC)",
+          "enforcedBy": ["ip", "kyc"]
+        }
+      ]
+    },
+    "restricted": {
+      "description": "Limited access; enhanced KYC required, reduced reward caps",
+      "jurisdictions": [
+        {
+          "code": "IN",
+          "name": "India",
+          "reason": "RBI/FEMA guidelines; regulatory uncertainty",
+          "enforcedBy": ["kyc", "reward_cap"],
+          "rewardCapDaily": 1000
+        },
+        {
+          "code": "SG",
+          "name": "Singapore",
+          "reason": "MAS DPT licensing requirements",
+          "enforcedBy": ["kyc"],
+          "requiresKYCTier": 2
+        },
+        {
+          "code": "TR",
+          "name": "Turkey",
+          "reason": "Crypto payment restrictions",
+          "enforcedBy": ["kyc", "reward_cap"],
+          "rewardCapDaily": 2000
+        }
+      ]
+    },
+    "compliant": {
+      "description": "Full access with standard KYC verification",
+      "jurisdictions": [
+        {
+          "code": "EU",
+          "name": "European Union",
+          "regulation": "MiCA",
+          "notes": "Utility token exemption applies"
+        },
+        {
+          "code": "CH",
+          "name": "Switzerland",
+          "regulation": "FINMA",
+          "notes": "Payment/utility token classification"
+        },
+        {
+          "code": "GB",
+          "name": "United Kingdom",
+          "regulation": "FCA",
+          "notes": "Compliance with financial promotion rules"
+        }
+      ]
+    }
+  },
+  "enforcement": {
+    "ipFiltering": true,
+    "walletChainDetection": true,
+    "kycVerification": true,
+    "reviewFrequency": "quarterly",
+    "nextReviewDate": "2026-09-24"
+  }
+}

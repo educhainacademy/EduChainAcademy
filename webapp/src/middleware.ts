@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import restrictedJurisdictions from "../../../compliance/restricted-jurisdictions.json";
+import restrictedJurisdictions from "@/lib/restricted-jurisdictions.json";
 
 interface GeoFenceResult {
   allowed: boolean;

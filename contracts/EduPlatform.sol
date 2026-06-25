@@ -42,7 +42,7 @@ contract EduPlatform is Ownable {
     mapping(uint256 => Course) public courses;
     mapping(address => LearnerProfile) public profiles;
     mapping(address => mapping(uint256 => bool)) public courseCompleted;
-    mapping(address => uint256) public credentialTokenId;
+    mapping(address => mapping(uint256 => bool)) public credentialMinted;
     uint256 private _nextCredentialId;
 
     address[] public rewardRecipients;
@@ -160,12 +160,11 @@ contract EduPlatform is Ownable {
         Course storage course = courses[courseId];
         require(course.active, "Course inactive");
         require(courseCompleted[msg.sender][courseId], "Course not completed");
-        require(credentialTokenId[msg.sender] == 0, "Already credentialed");
+        require(!credentialMinted[msg.sender][courseId], "Already credentialed");
         require(course.credentialPrice > 0, "No price set");
 
         // Burn 30% of payment
         uint256 burnAmount = (course.credentialPrice * REVENUE_BURN_BPS) / BPS_DENOMINATOR;
-        uint256 platformAmount = course.credentialPrice - burnAmount;
 
         eduToken.transferFrom(msg.sender, address(this), course.credentialPrice);
         if (burnAmount > 0) {
@@ -175,7 +174,7 @@ contract EduPlatform is Ownable {
         }
 
         _nextCredentialId++;
-        credentialTokenId[msg.sender] = _nextCredentialId;
+        credentialMinted[msg.sender][courseId] = true;
 
         emit CredentialMinted(msg.sender, courseId, _nextCredentialId);
     }

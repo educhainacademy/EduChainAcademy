@@ -20,6 +20,35 @@
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "uri",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "initialXP",
+          "type": "uint256"
+        }
+      ],
+      "name": "mintItem",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
     }
   ],
   "bytecode": "0x",
@@ -28,5 +57,5 @@
   "deployedLinkReferences": {},
   "immutableReferences": {},
   "inputSourceName": "project/contracts/QuestManager.sol",
-  "buildInfoId": "solc-0_8_24-b04ee35c46fefe9c1650a2ebb2aee8f3524c6ea6"
+  "buildInfoId": "solc-0_8_24-cc675b33e49a67cb8d3ef1d7d739e37ebfe63353"
 }

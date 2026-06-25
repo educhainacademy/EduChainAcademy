@@ -48,6 +48,7 @@ contract QuestManager is Ownable {
         address player,
         uint256 deadline
     ) external {
+        require(msg.sender == player, "Caller must be player");
         require(quests[questId].exists, "Quest not found");
         require(block.timestamp <= deadline, "Expired");
         require(!completed[player][questId], "Already completed");
@@ -62,9 +63,9 @@ contract QuestManager is Ownable {
         // Grant XP via GameLogic
         IGameLogic(gameLogic).grantXP(player, quests[questId].xpReward);
 
-        // Mint NFT if URI provided and not empty
+        // Mint NFT via GameLogic (which owns GameItem) if URI provided
         if (bytes(quests[questId].nftUri).length > 0) {
-            IGameItem(gameItem).mint(player, quests[questId].nftUri);
+            IGameLogic(gameLogic).mintItem(player, quests[questId].nftUri, 0);
         }
 
         emit QuestCompleted(player, questId, quests[questId].xpReward);
@@ -104,6 +105,7 @@ contract QuestManager is Ownable {
 
 interface IGameLogic {
     function grantXP(address player, uint256 amount) external;
+    function mintItem(address to, string memory uri, uint256 initialXP) external returns (uint256);
 }
 
 interface IGameItem {

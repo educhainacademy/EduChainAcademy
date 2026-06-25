@@ -42,7 +42,7 @@ describe("SimplePaymaster", function () {
       preVerificationGas: 0,
       maxFeePerGas: 0,
       maxPriorityFeePerGas: 0,
-      paymasterAndData: ethers.ZeroAddress,
+      paymasterAndData: "0x",
       signature: "0x",
     };
 
@@ -63,7 +63,7 @@ describe("SimplePaymaster", function () {
     expect(receipt.status).to.equal(1);
   });
 
-  it("EOA can withdraw ETH", async function () {
+  it("owner can withdraw ETH", async function () {
     await owner.sendTransaction({
       to: paymaster.target,
       value: ethers.parseEther("1.0"),
@@ -74,5 +74,16 @@ describe("SimplePaymaster", function () {
     const balanceAfter = await ethers.provider.getBalance(user.address);
 
     expect(balanceAfter - balanceBefore).to.equal(ethers.parseEther("1.0"));
+  });
+
+  it("non-owner cannot withdraw ETH", async function () {
+    await owner.sendTransaction({
+      to: paymaster.target,
+      value: ethers.parseEther("1.0"),
+    });
+
+    await expect(
+      paymaster.connect(user).withdraw(user.address)
+    ).to.be.revertedWithCustomError(paymaster, "OwnableUnauthorizedAccount");
   });
 });

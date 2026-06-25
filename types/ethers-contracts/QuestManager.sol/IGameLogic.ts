@@ -6,13 +6,15 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
   
 
   export interface IGameLogicInterface extends Interface {
-    getFunction(nameOrSignature: "grantXP"): FunctionFragment;
+    getFunction(nameOrSignature: "grantXP" | "mintItem"): FunctionFragment;
 
     
 
     encodeFunctionData(functionFragment: 'grantXP', values: [AddressLike, BigNumberish]): string;
+encodeFunctionData(functionFragment: 'mintItem', values: [AddressLike, string, BigNumberish]): string;
 
     decodeFunctionResult(functionFragment: 'grantXP', data: BytesLike): Result;
+decodeFunctionResult(functionFragment: 'mintItem', data: BytesLike): Result;
   }
 
   
@@ -58,12 +60,25 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
     >
     
 
+    
+    mintItem: TypedContractMethod<
+      [to: AddressLike, uri: string, initialXP: BigNumberish, ],
+      [bigint],
+      'nonpayable'
+    >
+    
+
 
     getFunction<T extends ContractMethod = ContractMethod>(key: string | FunctionFragment): T;
 
     getFunction(nameOrSignature: 'grantXP'): TypedContractMethod<
       [player: AddressLike, amount: BigNumberish, ],
       [void],
+      'nonpayable'
+    >;
+getFunction(nameOrSignature: 'mintItem'): TypedContractMethod<
+      [to: AddressLike, uri: string, initialXP: BigNumberish, ],
+      [bigint],
       'nonpayable'
     >;
 

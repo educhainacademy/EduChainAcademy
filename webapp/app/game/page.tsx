@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import { formatEther } from "viem";
+import { formatEther, parseEther } from "viem";
 import { GAME_LOGIC_ABI, GAME_ITEM_ABI } from "@/lib/abis";
-import { CONTRACT_ADDRESSES } from "@/lib/contracts";
+import { CONTRACT_ADDRESSES, getAddressesForChain } from "@/lib/contracts";
 
 export default function GamePage() {
   const { isConnected, address, chain } = useAccount();
@@ -14,7 +14,7 @@ export default function GamePage() {
   const [mintUri, setMintUri] = useState("");
   const [mintXp, setMintXp] = useState("0");
 
-  const addrs = chain ? (CONTRACT_ADDRESSES as any)[chain.network] || CONTRACT_ADDRESSES.sepolia : CONTRACT_ADDRESSES.sepolia;
+  const addrs = getAddressesForChain(chain?.id);
 
   const { data: xpBalance, refetch: refetchXp } = useReadContract({
     address: addrs?.gameLogic,
@@ -102,7 +102,7 @@ export default function GamePage() {
         </div>
       </div>
 
-      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+      <div className="mt-8 grid gap-6 lg:grid-cols-1">
         {/* Upgrade Item */}
         <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6">
           <h2 className="text-lg font-semibold text-white">Upgrade Item</h2>
@@ -137,53 +137,6 @@ export default function GamePage() {
             className="mt-4 w-full rounded-lg bg-amber-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-amber-500 disabled:opacity-50"
           >
             {isPending || isConfirming ? "Upgrading..." : "Upgrade Item"}
-          </button>
-        </div>
-
-        {/* Mint Item (Admin) */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6">
-          <h2 className="text-lg font-semibold text-white">Mint Item</h2>
-          <p className="mt-1 text-sm text-zinc-500">Mint a new NFT item (owner only)</p>
-
-          <div className="mt-4 space-y-3">
-            <div>
-              <label className="text-xs text-zinc-500">Recipient Address</label>
-              <input
-                type="text"
-                placeholder="0x..."
-                value={mintTo}
-                onChange={(e) => setMintTo(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
-              />
-            </div>
-            <div>
-              <label className="text-xs text-zinc-500">Metadata URI</label>
-              <input
-                type="text"
-                placeholder="ipfs://..."
-                value={mintUri}
-                onChange={(e) => setMintUri(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
-              />
-            </div>
-            <div>
-              <label className="text-xs text-zinc-500">Initial XP</label>
-              <input
-                type="number"
-                placeholder="0"
-                value={mintXp}
-                onChange={(e) => setMintXp(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
-              />
-            </div>
-          </div>
-
-          <button
-            onClick={handleMintItem}
-            disabled={!mintTo || !mintUri || isPending || isConfirming}
-            className="mt-4 w-full rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500 disabled:opacity-50"
-          >
-            {isPending || isConfirming ? "Minting..." : "Mint Item"}
           </button>
         </div>
       </div>

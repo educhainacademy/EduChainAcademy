@@ -25,11 +25,20 @@ export function Header() {
           <Link href="/quests" className="text-sm text-zinc-400 transition-colors hover:text-white">
             Quests
           </Link>
-          <Link href="/items" className="text-sm text-zinc-400 transition-colors hover:text-white">
-            Items
+          <Link href="/courses" className="text-sm text-zinc-400 transition-colors hover:text-white">
+            Courses
           </Link>
           <Link href="/staking" className="text-sm text-zinc-400 transition-colors hover:text-white">
             Staking
+          </Link>
+          <Link href="/governance" className="text-sm text-zinc-400 transition-colors hover:text-white">
+            Governance
+          </Link>
+          <Link href="/token" className="text-sm text-zinc-400 transition-colors hover:text-white">
+            Token
+          </Link>
+          <Link href="/profile" className="text-sm text-zinc-400 transition-colors hover:text-white">
+            Profile
           </Link>
         </nav>
 

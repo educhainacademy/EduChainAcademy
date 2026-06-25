@@ -3,15 +3,16 @@
 import { useState } from "react";
 import { useAccount, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { formatEther, parseEther } from "viem";
-import { STAKING_ABI, GAME_LOGIC_ABI } from "@/lib/abis";
-import { CONTRACT_ADDRESSES } from "@/lib/contracts";
+import { STAKING_ABI, GAME_LOGIC_ABI, EDU_TOKEN_ABI } from "@/lib/abis";
+import { CONTRACT_ADDRESSES, getAddressesForChain } from "@/lib/contracts";
 
 export default function StakingPage() {
   const { isConnected, address, chain } = useAccount();
   const [stakeAmount, setStakeAmount] = useState("");
   const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [step, setStep] = useState<"idle" | "approving" | "staking">("idle");
 
-  const addrs = chain ? (CONTRACT_ADDRESSES as any)[chain.network] || CONTRACT_ADDRESSES.sepolia : CONTRACT_ADDRESSES.sepolia;
+  const addrs = getAddressesForChain(chain?.id);
 
   const { data: stakeInfo, refetch: refetchStake } = useReadContract({
     address: addrs?.staking,
@@ -44,20 +45,49 @@ export default function StakingPage() {
     query: { enabled: !!address && !!addrs?.gameLogic, refetchInterval: 5000 },
   });
 
+  const { data: allowance } = useReadContract({
+    address: addrs?.eduToken,
+    abi: EDU_TOKEN_ABI,
+    functionName: "allowance",
+    args: address && addrs?.staking ? [address, addrs.staking] : undefined,
+    query: { enabled: !!address && !!addrs?.eduToken && !!addrs?.staking, refetchInterval: 5000 },
+  });
+
   const { writeContract, data: txHash, isPending } = useWriteContract();
   const { isLoading: isConfirming } = useWaitForTransactionReceipt({ hash: txHash });
 
   const stakedAmount = stakeInfo?.[0] ?? 0n;
   const earnedXp = earned ?? 0n;
+  const needsApproval = stakeAmount ? parseEther(stakeAmount) > (allowance ?? 0n) : false;
+
+  const handleApprove = () => {
+    if (!stakeAmount || !addrs?.eduToken || !addrs?.staking) return;
+    setStep("approving");
+    writeContract({
+      address: addrs.eduToken,
+      abi: EDU_TOKEN_ABI,
+      functionName: "approve",
+      args: [addrs.staking, parseEther(stakeAmount)],
+    });
+  };
 
   const handleStake = () => {
     if (!stakeAmount || !addrs?.staking) return;
+    setStep("staking");
     writeContract({
       address: addrs.staking,
       abi: STAKING_ABI,
       functionName: "stake",
       args: [parseEther(stakeAmount)],
     });
+  };
+
+  const handleStakeClick = () => {
+    if (needsApproval) {
+      handleApprove();
+    } else {
+      handleStake();
+    }
   };
 
   const handleWithdraw = () => {
@@ -114,13 +144,25 @@ export default function StakingPage() {
               className="flex-1 rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white placeholder-zinc-500 outline-none focus:border-emerald-500"
             />
             <button
-              onClick={handleStake}
+              onClick={handleStakeClick}
               disabled={!stakeAmount || isPending || isConfirming}
               className="rounded-lg bg-emerald-600 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-emerald-500 disabled:opacity-50"
             >
-              {isPending || isConfirming ? "..." : "Stake"}
+              {isPending || isConfirming
+                ? step === "approving"
+                  ? "Approving..."
+                  : "Staking..."
+                : needsApproval
+                ? "Approve & Stake"
+                : "Stake"}
             </button>
           </div>
+
+          {needsApproval && stakeAmount && (
+            <p className="mt-2 text-xs text-amber-400">
+              First-time staking requires an EDU token approval transaction.
+            </p>
+          )}
 
           {stakedAmount > 0n && (
             <div className="mt-4 flex gap-3">

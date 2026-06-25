@@ -6,7 +6,7 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
   
 
   export interface EduPlatformInterface extends Interface {
-    getFunction(nameOrSignature: "BPS_DENOMINATOR" | "DAILY_REWARD_CAP" | "KYC_MINIMUM" | "REVENUE_BURN_BPS" | "completeCourse" | "courseCompleted" | "courseCount" | "courses" | "createCourse" | "credentialTokenId" | "deactivateCourse" | "eduToken" | "getLearnerStats" | "mintCredential" | "owner" | "profiles" | "receivePayment" | "registerLearner" | "renounceOwnership" | "rewardRecipients" | "setKYCTier" | "totalBurned" | "transferOwnership"): FunctionFragment;
+    getFunction(nameOrSignature: "BPS_DENOMINATOR" | "DAILY_REWARD_CAP" | "KYC_MINIMUM" | "REVENUE_BURN_BPS" | "completeCourse" | "courseCompleted" | "courseCount" | "courses" | "createCourse" | "credentialMinted" | "deactivateCourse" | "eduToken" | "getLearnerStats" | "mintCredential" | "owner" | "profiles" | "receivePayment" | "registerLearner" | "renounceOwnership" | "rewardRecipients" | "setKYCTier" | "totalBurned" | "transferOwnership"): FunctionFragment;
 
     getEvent(nameOrSignatureOrTopic: "CourseCompleted" | "CourseCreated" | "CourseDeactivated" | "CredentialMinted" | "KYCUpdated" | "OwnershipTransferred" | "ProfileCreated" | "RevenueReceived" | "TokensBurned"): EventFragment;
 
@@ -19,7 +19,7 @@ encodeFunctionData(functionFragment: 'courseCompleted', values: [AddressLike, Bi
 encodeFunctionData(functionFragment: 'courseCount', values?: undefined): string;
 encodeFunctionData(functionFragment: 'courses', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'createCourse', values: [BigNumberish, BigNumberish, BigNumberish, string]): string;
-encodeFunctionData(functionFragment: 'credentialTokenId', values: [AddressLike]): string;
+encodeFunctionData(functionFragment: 'credentialMinted', values: [AddressLike, BigNumberish]): string;
 encodeFunctionData(functionFragment: 'deactivateCourse', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'eduToken', values?: undefined): string;
 encodeFunctionData(functionFragment: 'getLearnerStats', values: [AddressLike]): string;
@@ -43,7 +43,7 @@ decodeFunctionResult(functionFragment: 'courseCompleted', data: BytesLike): Resu
 decodeFunctionResult(functionFragment: 'courseCount', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'courses', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'createCourse', data: BytesLike): Result;
-decodeFunctionResult(functionFragment: 'credentialTokenId', data: BytesLike): Result;
+decodeFunctionResult(functionFragment: 'credentialMinted', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'deactivateCourse', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'eduToken', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'getLearnerStats', data: BytesLike): Result;
@@ -274,9 +274,9 @@ decodeFunctionResult(functionFragment: 'transferOwnership', data: BytesLike): Re
     
 
     
-    credentialTokenId: TypedContractMethod<
-      [arg0: AddressLike, ],
-      [bigint],
+    credentialMinted: TypedContractMethod<
+      [arg0: AddressLike, arg1: BigNumberish, ],
+      [boolean],
       'view'
     >
     
@@ -433,9 +433,9 @@ getFunction(nameOrSignature: 'createCourse'): TypedContractMethod<
       [void],
       'nonpayable'
     >;
-getFunction(nameOrSignature: 'credentialTokenId'): TypedContractMethod<
-      [arg0: AddressLike, ],
-      [bigint],
+getFunction(nameOrSignature: 'credentialMinted'): TypedContractMethod<
+      [arg0: AddressLike, arg1: BigNumberish, ],
+      [boolean],
       'view'
     >;
 getFunction(nameOrSignature: 'deactivateCourse'): TypedContractMethod<

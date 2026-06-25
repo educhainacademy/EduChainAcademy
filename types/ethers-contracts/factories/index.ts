@@ -9,4 +9,5 @@ export { EduToken__factory } from './EduToken__factory.js';
 export { GameItem__factory } from './GameItem__factory.js';
 export { GameLogic__factory } from './GameLogic__factory.js';
 export { Governance__factory } from './Governance__factory.js';
+export { MembershipNFT__factory } from './MembershipNFT__factory.js';
 export { SimplePaymaster__factory } from './SimplePaymaster__factory.js';

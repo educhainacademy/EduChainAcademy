@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAccount, useReadContract } from "wagmi";
 import { formatEther } from "viem";
 import { GAME_LOGIC_ABI, GAME_ITEM_ABI, STAKING_ABI } from "@/lib/abis";
-import { CONTRACT_ADDRESSES } from "@/lib/contracts";
+import { CONTRACT_ADDRESSES, getAddressesForChain } from "@/lib/contracts";
 
 function StatCard({ label, value, href }: { label: string; value: string; href?: string }) {
   const content = (
@@ -23,7 +23,7 @@ function StatCard({ label, value, href }: { label: string; value: string; href?:
 export default function DashboardPage() {
   const { isConnected, address, chain } = useAccount();
 
-  const addrs = chain ? (CONTRACT_ADDRESSES as any)[chain.network] || CONTRACT_ADDRESSES.sepolia : CONTRACT_ADDRESSES.sepolia;
+  const addrs = getAddressesForChain(chain?.id);
 
   const { data: xpBalance } = useReadContract({
     address: addrs?.gameLogic,
@@ -119,10 +119,30 @@ export default function DashboardPage() {
           <h3 className="mt-3 font-semibold text-white">Quests</h3>
           <p className="mt-1 text-sm text-zinc-500">Complete quests to earn XP and NFT rewards</p>
         </Link>
+        <Link href="/courses" className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 transition-colors hover:border-emerald-800/50">
+          <span className="text-2xl">📚</span>
+          <h3 className="mt-3 font-semibold text-white">Courses</h3>
+          <p className="mt-1 text-sm text-zinc-500">Learn and earn EDU tokens</p>
+        </Link>
         <Link href="/staking" className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 transition-colors hover:border-emerald-800/50">
           <span className="text-2xl">🔒</span>
           <h3 className="mt-3 font-semibold text-white">Staking</h3>
           <p className="mt-1 text-sm text-zinc-500">Stake EDU tokens to earn XP passively</p>
+        </Link>
+        <Link href="/governance" className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 transition-colors hover:border-emerald-800/50">
+          <span className="text-2xl">🏛️</span>
+          <h3 className="mt-3 font-semibold text-white">Governance</h3>
+          <p className="mt-1 text-sm text-zinc-500">Create proposals and vote on platform decisions</p>
+        </Link>
+        <Link href="/token" className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 transition-colors hover:border-emerald-800/50">
+          <span className="text-2xl">🪙</span>
+          <h3 className="mt-3 font-semibold text-white">EDU Token</h3>
+          <p className="mt-1 text-sm text-zinc-500">View token stats, supply, and features</p>
+        </Link>
+        <Link href="/membership" className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 transition-colors hover:border-emerald-800/50">
+          <span className="text-2xl">🪪</span>
+          <h3 className="mt-3 font-semibold text-white">Membership</h3>
+          <p className="mt-1 text-sm text-zinc-500">Get your ARCHON-IX NFT access pass</p>
         </Link>
       </div>
     </div>

@@ -8,6 +8,7 @@ export const CONTRACT_ADDRESSES = {
     governance: (process.env.NEXT_PUBLIC_GOVERNANCE_ADDRESS || "") as `0x${string}`,
     eduPlatform: (process.env.NEXT_PUBLIC_EDU_PLATFORM_ADDRESS || "") as `0x${string}`,
     simplePaymaster: (process.env.NEXT_PUBLIC_SIMPLE_PAYMASTER_ADDRESS || "") as `0x${string}`,
+    membershipNFT: (process.env.NEXT_PUBLIC_MEMBERSHIP_NFT_ADDRESS || "") as `0x${string}`,
   },
   polygonAmoy: {
     eduToken: (process.env.NEXT_PUBLIC_EDU_TOKEN_ADDRESS || "") as `0x${string}`,
@@ -18,5 +19,17 @@ export const CONTRACT_ADDRESSES = {
     governance: (process.env.NEXT_PUBLIC_GOVERNANCE_ADDRESS || "") as `0x${string}`,
     eduPlatform: (process.env.NEXT_PUBLIC_EDU_PLATFORM_ADDRESS || "") as `0x${string}`,
     simplePaymaster: (process.env.NEXT_PUBLIC_SIMPLE_PAYMASTER_ADDRESS || "") as `0x${string}`,
+    membershipNFT: (process.env.NEXT_PUBLIC_MEMBERSHIP_NFT_ADDRESS || "") as `0x${string}`,
   },
 } as const;
+
+const CHAIN_ID_MAP: Record<number, keyof typeof CONTRACT_ADDRESSES> = {
+  11155111: "sepolia",
+  80002: "polygonAmoy",
+};
+
+export function getAddressesForChain(chainId: number | undefined) {
+  if (!chainId) return CONTRACT_ADDRESSES.sepolia;
+  const key = CHAIN_ID_MAP[chainId] || "sepolia";
+  return CONTRACT_ADDRESSES[key];
+}

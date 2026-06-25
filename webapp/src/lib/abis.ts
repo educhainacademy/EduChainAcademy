@@ -303,6 +303,18 @@ export const QUEST_MANAGER_ABI = [
     stateMutability: "view",
   },
   {
+    type: "function",
+    name: "completeQuest",
+    inputs: [
+      { name: "questId", type: "uint256" },
+      { name: "signature", type: "bytes" },
+      { name: "player", type: "address" },
+      { name: "deadline", type: "uint256" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
     type: "event",
     name: "QuestAdded",
     inputs: [
@@ -365,6 +377,8 @@ export const GOVERNANCE_ABI = [
       { name: "endBlock", type: "uint256" },
       { name: "executed", type: "bool" },
       { name: "canceled", type: "bool" },
+      { name: "target", type: "address" },
+      { name: "callData", type: "bytes" },
     ],
     stateMutability: "view",
   },
@@ -380,8 +394,29 @@ export const GOVERNANCE_ABI = [
   },
   {
     type: "function",
+    name: "voteSnapshot",
+    inputs: [
+      { name: "", type: "uint256" },
+      { name: "", type: "address" },
+    ],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
     name: "createProposal",
     inputs: [{ name: "description", type: "string" }],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "createProposalWithTarget",
+    inputs: [
+      { name: "description", type: "string" },
+      { name: "target", type: "address" },
+      { name: "callData", type: "bytes" },
+    ],
     outputs: [{ name: "", type: "uint256" }],
     stateMutability: "nonpayable",
   },
@@ -392,6 +427,13 @@ export const GOVERNANCE_ABI = [
       { name: "proposalId", type: "uint256" },
       { name: "support", type: "bool" },
     ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "executeProposal",
+    inputs: [{ name: "proposalId", type: "uint256" }],
     outputs: [],
     stateMutability: "nonpayable",
   },
@@ -421,6 +463,78 @@ export const GOVERNANCE_ABI = [
       { name: "voter", type: "address", indexed: true },
       { name: "support", type: "bool", indexed: false },
       { name: "weight", type: "uint256", indexed: false },
+    ],
+  },
+] as const;
+
+export const MEMBERSHIP_NFT_ABI = [
+  {
+    type: "function",
+    name: "isActiveMember",
+    inputs: [{ name: "account", type: "address" }],
+    outputs: [{ name: "", type: "bool" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getMembershipTier",
+    inputs: [{ name: "account", type: "address" }],
+    outputs: [{ name: "", type: "uint8" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "totalMinted",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "maxSupply",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "ownerTokens",
+    inputs: [{ name: "", type: "address" }],
+    outputs: [{ name: "", type: "uint256[]" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "memberships",
+    inputs: [{ name: "", type: "uint256" }],
+    outputs: [
+      { name: "tier", type: "uint8" },
+      { name: "mintedAt", type: "uint256" },
+      { name: "expiresAt", type: "uint256" },
+      { name: "active", type: "bool" },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "mint",
+    inputs: [
+      { name: "to", type: "address" },
+      { name: "tier", type: "uint8" },
+      { name: "expiresAt", type: "uint256" },
+      { name: "uri", type: "string" },
+    ],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "event",
+    name: "MembershipMinted",
+    inputs: [
+      { name: "to", type: "address", indexed: true },
+      { name: "tokenId", type: "uint256", indexed: true },
+      { name: "tier", type: "uint8", indexed: false },
+      { name: "expiresAt", type: "uint256", indexed: false },
     ],
   },
 ] as const;
@@ -488,5 +602,41 @@ export const EDU_PLATFORM_ABI = [
       { name: "dailyRemaining", type: "uint256" },
     ],
     stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "registerLearner",
+    inputs: [],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "completeCourse",
+    inputs: [{ name: "courseId", type: "uint256" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "mintCredential",
+    inputs: [{ name: "courseId", type: "uint256" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "event",
+    name: "CourseCompleted",
+    inputs: [
+      { name: "learner", type: "address", indexed: true },
+      { name: "courseId", type: "uint256", indexed: true },
+    ],
+  },
+  {
+    type: "event",
+    name: "ProfileCreated",
+    inputs: [
+      { name: "learner", type: "address", indexed: true },
+    ],
   },
 ] as const;

@@ -23,6 +23,8 @@ contract Governance is Ownable {
         uint256 endBlock;
         bool executed;
         bool canceled;
+        address target; // target contract for execution (address(0) = no-op)
+        bytes callData; // calldata to send to target
     }
 
     uint256 public proposalCount;
@@ -33,6 +35,7 @@ contract Governance is Ownable {
     mapping(uint256 => Proposal) public proposals;
     mapping(uint256 => mapping(address => bool)) public hasVoted;
     mapping(uint256 => mapping(address => bool)) public voteChoice; // true = for
+    mapping(uint256 => mapping(address => uint256)) public voteSnapshot; // balance at proposal creation
 
     event ProposalCreated(uint256 indexed id, address proposer, string description, uint256 startBlock, uint256 endBlock);
     event Voted(uint256 indexed id, address indexed voter, bool support, uint256 weight);
@@ -56,6 +59,23 @@ contract Governance is Ownable {
     }
 
     function createProposal(string calldata description) external returns (uint256) {
+        return _createProposal(description, address(0), new bytes(0));
+    }
+
+    function createProposalWithTarget(
+        string calldata description,
+        address target,
+        bytes calldata callData
+    ) external returns (uint256) {
+        require(target != address(0), "Target required");
+        return _createProposal(description, target, callData);
+    }
+
+    function _createProposal(
+        string calldata description,
+        address target,
+        bytes memory callData
+    ) internal returns (uint256) {
         require(eduToken.balanceOf(msg.sender) >= proposalThreshold, "Below proposal threshold");
 
         proposalCount++;
@@ -71,7 +91,9 @@ contract Governance is Ownable {
             startBlock: startBlock,
             endBlock: endBlock,
             executed: false,
-            canceled: false
+            canceled: false,
+            target: target,
+            callData: callData
         });
 
         emit ProposalCreated(proposalCount, msg.sender, description, startBlock, endBlock);
@@ -85,7 +107,11 @@ contract Governance is Ownable {
         require(!hasVoted[proposalId][msg.sender], "Already voted");
         require(!p.canceled, "Proposal canceled");
 
-        uint256 weight = eduToken.balanceOf(msg.sender);
+        // Snapshot balance on first vote to prevent flash loan attacks
+        if (voteSnapshot[proposalId][msg.sender] == 0) {
+            voteSnapshot[proposalId][msg.sender] = eduToken.balanceOf(msg.sender);
+        }
+        uint256 weight = voteSnapshot[proposalId][msg.sender];
         require(weight > 0, "No voting power");
 
         hasVoted[proposalId][msg.sender] = true;
@@ -100,7 +126,7 @@ contract Governance is Ownable {
         emit Voted(proposalId, msg.sender, support, weight);
     }
 
-    function executeProposal(uint256 proposalId) external onlyOwner {
+    function executeProposal(uint256 proposalId) external {
         Proposal storage p = proposals[proposalId];
         require(p.id != 0, "Proposal not found");
         require(block.number > p.endBlock, "Voting not ended");
@@ -110,6 +136,13 @@ contract Governance is Ownable {
         require(p.forVotes > p.againstVotes, "Proposal rejected");
 
         p.executed = true;
+
+        // Execute the proposal's action if a target is set
+        if (p.target != address(0) && p.callData.length > 0) {
+            (bool success,) = p.target.call(p.callData);
+            require(success, "Execution failed");
+        }
+
         emit ProposalExecuted(proposalId);
     }
 

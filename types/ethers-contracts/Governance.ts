@@ -6,12 +6,13 @@ import type { TypedContractEvent, TypedDeferredTopicFilter, TypedEventLog, Typed
   
 
   export interface GovernanceInterface extends Interface {
-    getFunction(nameOrSignature: "cancelProposal" | "createProposal" | "eduToken" | "executeProposal" | "getProposalState" | "hasVoted" | "owner" | "proposalCount" | "proposalThreshold" | "proposals" | "quorumThreshold" | "renounceOwnership" | "setProposalThreshold" | "setQuorumThreshold" | "setVotingPeriod" | "transferOwnership" | "vote" | "voteChoice" | "votingPeriod"): FunctionFragment;
+    getFunction(nameOrSignature: "cancelProposal" | "createProposal" | "createProposalWithTarget" | "eduToken" | "executeProposal" | "getProposalState" | "hasVoted" | "owner" | "proposalCount" | "proposalThreshold" | "proposals" | "quorumThreshold" | "renounceOwnership" | "setProposalThreshold" | "setQuorumThreshold" | "setVotingPeriod" | "transferOwnership" | "vote" | "voteChoice" | "voteSnapshot" | "votingPeriod"): FunctionFragment;
 
     getEvent(nameOrSignatureOrTopic: "OwnershipTransferred" | "ProposalCanceled" | "ProposalCreated" | "ProposalExecuted" | "ProposalThresholdUpdated" | "QuorumUpdated" | "Voted" | "VotingPeriodUpdated"): EventFragment;
 
     encodeFunctionData(functionFragment: 'cancelProposal', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'createProposal', values: [string]): string;
+encodeFunctionData(functionFragment: 'createProposalWithTarget', values: [string, AddressLike, BytesLike]): string;
 encodeFunctionData(functionFragment: 'eduToken', values?: undefined): string;
 encodeFunctionData(functionFragment: 'executeProposal', values: [BigNumberish]): string;
 encodeFunctionData(functionFragment: 'getProposalState', values: [BigNumberish]): string;
@@ -28,10 +29,12 @@ encodeFunctionData(functionFragment: 'setVotingPeriod', values: [BigNumberish]):
 encodeFunctionData(functionFragment: 'transferOwnership', values: [AddressLike]): string;
 encodeFunctionData(functionFragment: 'vote', values: [BigNumberish, boolean]): string;
 encodeFunctionData(functionFragment: 'voteChoice', values: [BigNumberish, AddressLike]): string;
+encodeFunctionData(functionFragment: 'voteSnapshot', values: [BigNumberish, AddressLike]): string;
 encodeFunctionData(functionFragment: 'votingPeriod', values?: undefined): string;
 
     decodeFunctionResult(functionFragment: 'cancelProposal', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'createProposal', data: BytesLike): Result;
+decodeFunctionResult(functionFragment: 'createProposalWithTarget', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'eduToken', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'executeProposal', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'getProposalState', data: BytesLike): Result;
@@ -48,6 +51,7 @@ decodeFunctionResult(functionFragment: 'setVotingPeriod', data: BytesLike): Resu
 decodeFunctionResult(functionFragment: 'transferOwnership', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'vote', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'voteChoice', data: BytesLike): Result;
+decodeFunctionResult(functionFragment: 'voteSnapshot', data: BytesLike): Result;
 decodeFunctionResult(functionFragment: 'votingPeriod', data: BytesLike): Result;
   }
 
@@ -198,6 +202,14 @@ decodeFunctionResult(functionFragment: 'votingPeriod', data: BytesLike): Result;
     
 
     
+    createProposalWithTarget: TypedContractMethod<
+      [description: string, target: AddressLike, callData: BytesLike, ],
+      [bigint],
+      'nonpayable'
+    >
+    
+
+    
     eduToken: TypedContractMethod<
       [],
       [string],
@@ -256,7 +268,7 @@ decodeFunctionResult(functionFragment: 'votingPeriod', data: BytesLike): Result;
     
     proposals: TypedContractMethod<
       [arg0: BigNumberish, ],
-      [[bigint, string, string, bigint, bigint, bigint, bigint, boolean, boolean] & {id: bigint, proposer: string, description: string, forVotes: bigint, againstVotes: bigint, startBlock: bigint, endBlock: bigint, executed: boolean, canceled: boolean }],
+      [[bigint, string, string, bigint, bigint, bigint, bigint, boolean, boolean, string, string] & {id: bigint, proposer: string, description: string, forVotes: bigint, againstVotes: bigint, startBlock: bigint, endBlock: bigint, executed: boolean, canceled: boolean, target: string, callData: string }],
       'view'
     >
     
@@ -326,6 +338,14 @@ decodeFunctionResult(functionFragment: 'votingPeriod', data: BytesLike): Result;
     
 
     
+    voteSnapshot: TypedContractMethod<
+      [arg0: BigNumberish, arg1: AddressLike, ],
+      [bigint],
+      'view'
+    >
+    
+
+    
     votingPeriod: TypedContractMethod<
       [],
       [bigint],
@@ -343,6 +363,11 @@ decodeFunctionResult(functionFragment: 'votingPeriod', data: BytesLike): Result;
     >;
 getFunction(nameOrSignature: 'createProposal'): TypedContractMethod<
       [description: string, ],
+      [bigint],
+      'nonpayable'
+    >;
+getFunction(nameOrSignature: 'createProposalWithTarget'): TypedContractMethod<
+      [description: string, target: AddressLike, callData: BytesLike, ],
       [bigint],
       'nonpayable'
     >;
@@ -383,7 +408,7 @@ getFunction(nameOrSignature: 'proposalThreshold'): TypedContractMethod<
     >;
 getFunction(nameOrSignature: 'proposals'): TypedContractMethod<
       [arg0: BigNumberish, ],
-      [[bigint, string, string, bigint, bigint, bigint, bigint, boolean, boolean] & {id: bigint, proposer: string, description: string, forVotes: bigint, againstVotes: bigint, startBlock: bigint, endBlock: bigint, executed: boolean, canceled: boolean }],
+      [[bigint, string, string, bigint, bigint, bigint, bigint, boolean, boolean, string, string] & {id: bigint, proposer: string, description: string, forVotes: bigint, againstVotes: bigint, startBlock: bigint, endBlock: bigint, executed: boolean, canceled: boolean, target: string, callData: string }],
       'view'
     >;
 getFunction(nameOrSignature: 'quorumThreshold'): TypedContractMethod<
@@ -424,6 +449,11 @@ getFunction(nameOrSignature: 'vote'): TypedContractMethod<
 getFunction(nameOrSignature: 'voteChoice'): TypedContractMethod<
       [arg0: BigNumberish, arg1: AddressLike, ],
       [boolean],
+      'view'
+    >;
+getFunction(nameOrSignature: 'voteSnapshot'): TypedContractMethod<
+      [arg0: BigNumberish, arg1: AddressLike, ],
+      [bigint],
       'view'
     >;
 getFunction(nameOrSignature: 'votingPeriod'): TypedContractMethod<
