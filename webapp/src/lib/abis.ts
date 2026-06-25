@@ -114,12 +114,51 @@ export const GAME_LOGIC_ABI = [
     stateMutability: "view",
   },
   {
+    type: "function",
+    name: "upgradeItem",
+    inputs: [
+      { name: "tokenId", type: "uint256" },
+      { name: "xpCost", type: "uint256" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "mintItem",
+    inputs: [
+      { name: "to", type: "address" },
+      { name: "uri", type: "string" },
+      { name: "initialXP", type: "uint256" },
+    ],
+    outputs: [{ name: "tokenId", type: "uint256" }],
+    stateMutability: "nonpayable",
+  },
+  {
     type: "event",
     name: "XPGained",
     inputs: [
       { name: "player", type: "address", indexed: true },
       { name: "amount", type: "uint256", indexed: false },
       { name: "total", type: "uint256", indexed: false },
+    ],
+  },
+  {
+    type: "event",
+    name: "ItemUpgraded",
+    inputs: [
+      { name: "player", type: "address", indexed: true },
+      { name: "tokenId", type: "uint256", indexed: true },
+      { name: "newLevel", type: "uint8", indexed: false },
+    ],
+  },
+  {
+    type: "event",
+    name: "ItemMinted",
+    inputs: [
+      { name: "player", type: "address", indexed: true },
+      { name: "tokenId", type: "uint256", indexed: true },
+      { name: "uri", type: "string", indexed: false },
     ],
   },
 ] as const;

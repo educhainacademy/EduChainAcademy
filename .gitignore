@@ -9,6 +9,9 @@ node_modules/
 .pnp.js
 .yarn-integrity
 .yarnrc.yml
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
 
 # === ENVIRONMENT & SECRETS (CRITICAL: NEVER COMMIT) ===
 .env

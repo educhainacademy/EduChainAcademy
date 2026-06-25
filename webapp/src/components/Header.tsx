@@ -15,12 +15,18 @@ export function Header() {
           <span className="text-emerald-400">Edu</span>Chain Academy
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 md:flex">
           <Link href="/" className="text-sm text-zinc-400 transition-colors hover:text-white">
             Dashboard
           </Link>
+          <Link href="/game" className="text-sm text-zinc-400 transition-colors hover:text-white">
+            Game
+          </Link>
           <Link href="/quests" className="text-sm text-zinc-400 transition-colors hover:text-white">
             Quests
+          </Link>
+          <Link href="/items" className="text-sm text-zinc-400 transition-colors hover:text-white">
+            Items
           </Link>
           <Link href="/staking" className="text-sm text-zinc-400 transition-colors hover:text-white">
             Staking
